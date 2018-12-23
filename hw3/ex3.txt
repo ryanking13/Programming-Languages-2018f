@@ -1,0 +1,92 @@
+let proc leaf (n) =
+    {node := n, left := unit, right := unit}
+in
+
+let proc makeLtree (n, t) =
+    {node := n, left := t, right := unit}
+in
+
+let proc makeRtree (n, t) =
+    {node := n, left := unit, right := t}
+in
+
+let proc makeTree (n, tl, tr) =
+    {node := n, left := tl, right := tr}
+in
+
+let proc isEmpty (t) =
+    if t = unit then true
+    else false
+in
+
+let proc rTree (t) =
+    if isEmpty(t) then unit
+    else t.right
+in
+
+let proc lTree (t) =
+    if isEmpty(t) then unit
+    else t.left
+in
+
+let proc nodeVal (t) =
+    if isEmpty(t) then -1
+    else t.node
+in
+
+let proc dft (t) =
+    if isEmpty(t) then unit
+    else (
+        write nodeVal(t);
+        dft(lTree(t));
+        dft(rTree(t));
+        unit
+    )
+in
+
+let proc top (stk) = stk.front in
+
+let proc pop (stk) = stk.next in
+
+let proc push (stk, t) =
+    if t = unit then stk
+    else (
+        let stk_ := {front := t, next := stk} in
+        stk_
+    )
+in
+
+let proc bftTraverse (stk) =
+        if stk = unit then unit
+        else (
+            let t := top(stk) in
+            let stk_ := pop(stk) in
+            stk_ := bftTraverse(stk_);
+            stk_ := push(stk_, lTree(t));
+            stk_ := push(stk_, rTree(t));
+            write nodeVal(t);
+            stk_
+        )
+in
+
+let proc bft_ (stk) =
+    if stk = unit then unit
+    else (
+        let stk_ := stk in
+        if stk_.front = unit then unit
+        else (
+            stk_ := bftTraverse(stk_);
+            bft_(stk_)
+        )
+    )
+in
+
+let proc bft (t) =
+    if isEmpty(t) then unit
+    else (
+        let stk := {front := t, next := unit} in
+        bft_(stk)
+    )
+in
+2018
+
